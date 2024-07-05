@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option go_package = "github.com/hive-ops/apiary/pb";
+
+message Entry {
+  string key = 1;
+  string value = 2;
+}
+
+message GetEntriesCommand {
+  repeated string keys = 1;
+}
+
+message GetEntriesResponse {
+  repeated Entry entries = 1;
+  repeated string notFound = 2;
+}
+
+message SetEntriesCommand {
+  repeated Entry entries = 1;
+}
+
+message SetEntriesResponse {
+  repeated string successful = 1;
+  repeated string failed = 2;
+}
+
+message DeleteEntriesCommand {
+  repeated string keys = 1;
+}
+
+message DeleteEntriesResponse {
+  repeated string successful = 1;
+  repeated string failed = 2;
+}
