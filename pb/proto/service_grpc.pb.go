@@ -22,6 +22,7 @@ const (
 	ApiaryService_GetEntries_FullMethodName    = "/ApiaryService/GetEntries"
 	ApiaryService_SetEntries_FullMethodName    = "/ApiaryService/SetEntries"
 	ApiaryService_DeleteEntries_FullMethodName = "/ApiaryService/DeleteEntries"
+	ApiaryService_ClearEntries_FullMethodName  = "/ApiaryService/ClearEntries"
 )
 
 // ApiaryServiceClient is the client API for ApiaryService service.
@@ -31,6 +32,7 @@ type ApiaryServiceClient interface {
 	GetEntries(ctx context.Context, in *GetEntriesCommand, opts ...grpc.CallOption) (*GetEntriesResponse, error)
 	SetEntries(ctx context.Context, in *SetEntriesCommand, opts ...grpc.CallOption) (*SetEntriesResponse, error)
 	DeleteEntries(ctx context.Context, in *DeleteEntriesCommand, opts ...grpc.CallOption) (*DeleteEntriesResponse, error)
+	ClearEntries(ctx context.Context, in *ClearEntriesCommand, opts ...grpc.CallOption) (*ClearEntriesResponse, error)
 }
 
 type apiaryServiceClient struct {
@@ -71,6 +73,16 @@ func (c *apiaryServiceClient) DeleteEntries(ctx context.Context, in *DeleteEntri
 	return out, nil
 }
 
+func (c *apiaryServiceClient) ClearEntries(ctx context.Context, in *ClearEntriesCommand, opts ...grpc.CallOption) (*ClearEntriesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ClearEntriesResponse)
+	err := c.cc.Invoke(ctx, ApiaryService_ClearEntries_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ApiaryServiceServer is the server API for ApiaryService service.
 // All implementations must embed UnimplementedApiaryServiceServer
 // for forward compatibility
@@ -78,6 +90,7 @@ type ApiaryServiceServer interface {
 	GetEntries(context.Context, *GetEntriesCommand) (*GetEntriesResponse, error)
 	SetEntries(context.Context, *SetEntriesCommand) (*SetEntriesResponse, error)
 	DeleteEntries(context.Context, *DeleteEntriesCommand) (*DeleteEntriesResponse, error)
+	ClearEntries(context.Context, *ClearEntriesCommand) (*ClearEntriesResponse, error)
 	mustEmbedUnimplementedApiaryServiceServer()
 }
 
@@ -93,6 +106,9 @@ func (UnimplementedApiaryServiceServer) SetEntries(context.Context, *SetEntriesC
 }
 func (UnimplementedApiaryServiceServer) DeleteEntries(context.Context, *DeleteEntriesCommand) (*DeleteEntriesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteEntries not implemented")
+}
+func (UnimplementedApiaryServiceServer) ClearEntries(context.Context, *ClearEntriesCommand) (*ClearEntriesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClearEntries not implemented")
 }
 func (UnimplementedApiaryServiceServer) mustEmbedUnimplementedApiaryServiceServer() {}
 
@@ -161,6 +177,24 @@ func _ApiaryService_DeleteEntries_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ApiaryService_ClearEntries_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClearEntriesCommand)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiaryServiceServer).ClearEntries(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiaryService_ClearEntries_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiaryServiceServer).ClearEntries(ctx, req.(*ClearEntriesCommand))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ApiaryService_ServiceDesc is the grpc.ServiceDesc for ApiaryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -179,6 +213,10 @@ var ApiaryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteEntries",
 			Handler:    _ApiaryService_DeleteEntries_Handler,
+		},
+		{
+			MethodName: "ClearEntries",
+			Handler:    _ApiaryService_ClearEntries_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

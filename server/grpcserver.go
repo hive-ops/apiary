@@ -63,3 +63,8 @@ func (s *ApiaryGRPCServer) DeleteEntries(ctx context.Context, cmd *pb.DeleteEntr
 		Failed:     failed,
 	}, nil
 }
+
+func (s *ApiaryGRPCServer) ClearCache(ctx context.Context, cmd *pb.ClearEntriesCommand) (*pb.ClearEntriesResponse, error) {
+	c.Clear()
+	return &pb.ClearEntriesResponse{Successful: true}, nil
+}

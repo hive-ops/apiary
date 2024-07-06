@@ -33,3 +33,10 @@ message DeleteEntriesResponse {
   repeated string successful = 1;
   repeated string failed = 2;
 }
+
+message ClearEntriesCommand {
+}
+
+message ClearEntriesResponse {
+  bool successful = 1;
+}

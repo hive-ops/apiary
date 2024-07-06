@@ -8,4 +8,5 @@ service ApiaryService {
   rpc GetEntries(GetEntriesCommand) returns (GetEntriesResponse) {}
   rpc SetEntries(SetEntriesCommand) returns (SetEntriesResponse) {}
   rpc DeleteEntries(DeleteEntriesCommand) returns (DeleteEntriesResponse) {}
+  rpc ClearEntries(ClearEntriesCommand) returns (ClearEntriesResponse) {}
 }
