@@ -1,0 +1,26 @@
+goos: darwin
+goarch: amd64
+pkg: github.com/hive-ops/apiary/server
+cpu: Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz
+BenchmarkSet-12       	161078048	        29.52 ns/op	  33876526 ops/s	         4.755 s	       0 B/op	       0 allocs/op
+BenchmarkSet-12       	155783995	        28.28 ns/op	  35356474 ops/s	         4.406 s	       0 B/op	       0 allocs/op
+BenchmarkSet-12       	155967270	        28.63 ns/op	  34930395 ops/s	         4.465 s	       0 B/op	       0 allocs/op
+BenchmarkSet-12       	168964597	        29.89 ns/op	  33460628 ops/s	         5.050 s	       0 B/op	       0 allocs/op
+BenchmarkSet-12       	169574928	        28.01 ns/op	  35705300 ops/s	         4.749 s	       0 B/op	       0 allocs/op
+BenchmarkSet-12       	161947093	        27.88 ns/op	  35871727 ops/s	         4.515 s	       0 B/op	       0 allocs/op
+BenchmarkSet-12       	171542710	        32.91 ns/op	  30389376 ops/s	         5.645 s	       0 B/op	       0 allocs/op
+BenchmarkSet-12       	166144944	        31.47 ns/op	  31775727 ops/s	         5.229 s	       0 B/op	       0 allocs/op
+BenchmarkSet-12       	146519805	        31.83 ns/op	  31414325 ops/s	         4.664 s	       0 B/op	       0 allocs/op
+BenchmarkSet-12       	163988174	        28.28 ns/op	  35365018 ops/s	         4.637 s	       0 B/op	       0 allocs/op
+BenchmarkGet-12       	276730172	        15.02 ns/op	  66575434 ops/s	         4.157 s	       0 B/op	       0 allocs/op
+BenchmarkGet-12       	314605104	        15.15 ns/op	  66019968 ops/s	         4.765 s	       0 B/op	       0 allocs/op
+BenchmarkGet-12       	274710560	        15.16 ns/op	  65982412 ops/s	         4.163 s	       0 B/op	       0 allocs/op
+BenchmarkGet-12       	274437662	        19.64 ns/op	  50923437 ops/s	         5.389 s	       0 B/op	       0 allocs/op
+BenchmarkGet-12       	295951179	        18.80 ns/op	  53188510 ops/s	         5.564 s	       0 B/op	       0 allocs/op
+BenchmarkGet-12       	272425846	        15.87 ns/op	  63029622 ops/s	         4.322 s	       0 B/op	       0 allocs/op
+BenchmarkGet-12       	271364440	        15.16 ns/op	  65972089 ops/s	         4.113 s	       0 B/op	       0 allocs/op
+BenchmarkGet-12       	318655220	        18.16 ns/op	  55055088 ops/s	         5.788 s	       0 B/op	       0 allocs/op
+BenchmarkGet-12       	270301694	        16.72 ns/op	  59824058 ops/s	         4.518 s	       0 B/op	       0 allocs/op
+BenchmarkGet-12       	320870493	        15.19 ns/op	  65822355 ops/s	         4.875 s	       0 B/op	       0 allocs/op
+BenchmarkDelete-12    	30139341	       213.9 ns/op	   4675723 ops/s	         6.446 s	       0 B/op	       0 allocs/op
+BenchmarkDelete-12    	
