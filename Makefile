@@ -7,6 +7,11 @@ setup-project:
 mod-tidy:
 	go mod tidy
 
+start-services:
+	docker build -t apiary . --progress=plain
+	docker-compose down
+	docker-compose up -d
+
 compile-proto-go:
 	#go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	#go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
@@ -21,7 +26,8 @@ compile-proto-go:
 
 build: mod-tidy compile-proto-go
 	rm -rf bin
-	CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -tags=containers -o bin/main .
+	go build -o bin/main .
+	#CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -tags=containers -o bin/main .
 
 benchmark-cache:
 	#go test -bench=. -benchmem -count=10 -benchtime=4s ./server -timeout 30m | tee current_bench.txt

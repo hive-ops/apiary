@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+
+  apiary:
+    platform: linux/amd64
+    image: apiary
+    ports:
+      - "2468:2468"
