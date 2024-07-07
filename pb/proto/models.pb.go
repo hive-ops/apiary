@@ -20,6 +20,116 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Namespace struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Org        string `protobuf:"bytes,1,opt,name=org,proto3" json:"org,omitempty"`
+	Collection string `protobuf:"bytes,2,opt,name=collection,proto3" json:"collection,omitempty"`
+}
+
+func (x *Namespace) Reset() {
+	*x = Namespace{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_models_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Namespace) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Namespace) ProtoMessage() {}
+
+func (x *Namespace) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_models_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Namespace.ProtoReflect.Descriptor instead.
+func (*Namespace) Descriptor() ([]byte, []int) {
+	return file_proto_models_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Namespace) GetOrg() string {
+	if x != nil {
+		return x.Org
+	}
+	return ""
+}
+
+func (x *Namespace) GetCollection() string {
+	if x != nil {
+		return x.Collection
+	}
+	return ""
+}
+
+type Keyspace struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace *Namespace `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Name      string     `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+}
+
+func (x *Keyspace) Reset() {
+	*x = Keyspace{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_models_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Keyspace) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Keyspace) ProtoMessage() {}
+
+func (x *Keyspace) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_models_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Keyspace.ProtoReflect.Descriptor instead.
+func (*Keyspace) Descriptor() ([]byte, []int) {
+	return file_proto_models_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Keyspace) GetNamespace() *Namespace {
+	if x != nil {
+		return x.Namespace
+	}
+	return nil
+}
+
+func (x *Keyspace) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
 type Entry struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -32,7 +142,7 @@ type Entry struct {
 func (x *Entry) Reset() {
 	*x = Entry{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_models_proto_msgTypes[0]
+		mi := &file_proto_models_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -45,7 +155,7 @@ func (x *Entry) String() string {
 func (*Entry) ProtoMessage() {}
 
 func (x *Entry) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_models_proto_msgTypes[0]
+	mi := &file_proto_models_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +168,7 @@ func (x *Entry) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Entry.ProtoReflect.Descriptor instead.
 func (*Entry) Descriptor() ([]byte, []int) {
-	return file_proto_models_proto_rawDescGZIP(), []int{0}
+	return file_proto_models_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Entry) GetKey() string {
@@ -80,13 +190,14 @@ type GetEntriesCommand struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Keys []string `protobuf:"bytes,1,rep,name=keys,proto3" json:"keys,omitempty"`
+	Keyspace *Keyspace `protobuf:"bytes,1,opt,name=keyspace,proto3" json:"keyspace,omitempty"`
+	Keys     []string  `protobuf:"bytes,2,rep,name=keys,proto3" json:"keys,omitempty"`
 }
 
 func (x *GetEntriesCommand) Reset() {
 	*x = GetEntriesCommand{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_models_proto_msgTypes[1]
+		mi := &file_proto_models_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -99,7 +210,7 @@ func (x *GetEntriesCommand) String() string {
 func (*GetEntriesCommand) ProtoMessage() {}
 
 func (x *GetEntriesCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_models_proto_msgTypes[1]
+	mi := &file_proto_models_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -112,7 +223,14 @@ func (x *GetEntriesCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetEntriesCommand.ProtoReflect.Descriptor instead.
 func (*GetEntriesCommand) Descriptor() ([]byte, []int) {
-	return file_proto_models_proto_rawDescGZIP(), []int{1}
+	return file_proto_models_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetEntriesCommand) GetKeyspace() *Keyspace {
+	if x != nil {
+		return x.Keyspace
+	}
+	return nil
 }
 
 func (x *GetEntriesCommand) GetKeys() []string {
@@ -134,7 +252,7 @@ type GetEntriesResponse struct {
 func (x *GetEntriesResponse) Reset() {
 	*x = GetEntriesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_models_proto_msgTypes[2]
+		mi := &file_proto_models_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -147,7 +265,7 @@ func (x *GetEntriesResponse) String() string {
 func (*GetEntriesResponse) ProtoMessage() {}
 
 func (x *GetEntriesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_models_proto_msgTypes[2]
+	mi := &file_proto_models_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -160,7 +278,7 @@ func (x *GetEntriesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetEntriesResponse.ProtoReflect.Descriptor instead.
 func (*GetEntriesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_models_proto_rawDescGZIP(), []int{2}
+	return file_proto_models_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetEntriesResponse) GetEntries() []*Entry {
@@ -182,13 +300,14 @@ type SetEntriesCommand struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Entries []*Entry `protobuf:"bytes,1,rep,name=entries,proto3" json:"entries,omitempty"`
+	Keyspace *Keyspace `protobuf:"bytes,1,opt,name=keyspace,proto3" json:"keyspace,omitempty"`
+	Entries  []*Entry  `protobuf:"bytes,2,rep,name=entries,proto3" json:"entries,omitempty"`
 }
 
 func (x *SetEntriesCommand) Reset() {
 	*x = SetEntriesCommand{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_models_proto_msgTypes[3]
+		mi := &file_proto_models_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -201,7 +320,7 @@ func (x *SetEntriesCommand) String() string {
 func (*SetEntriesCommand) ProtoMessage() {}
 
 func (x *SetEntriesCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_models_proto_msgTypes[3]
+	mi := &file_proto_models_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -214,7 +333,14 @@ func (x *SetEntriesCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetEntriesCommand.ProtoReflect.Descriptor instead.
 func (*SetEntriesCommand) Descriptor() ([]byte, []int) {
-	return file_proto_models_proto_rawDescGZIP(), []int{3}
+	return file_proto_models_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *SetEntriesCommand) GetKeyspace() *Keyspace {
+	if x != nil {
+		return x.Keyspace
+	}
+	return nil
 }
 
 func (x *SetEntriesCommand) GetEntries() []*Entry {
@@ -236,7 +362,7 @@ type SetEntriesResponse struct {
 func (x *SetEntriesResponse) Reset() {
 	*x = SetEntriesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_models_proto_msgTypes[4]
+		mi := &file_proto_models_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -249,7 +375,7 @@ func (x *SetEntriesResponse) String() string {
 func (*SetEntriesResponse) ProtoMessage() {}
 
 func (x *SetEntriesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_models_proto_msgTypes[4]
+	mi := &file_proto_models_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -262,7 +388,7 @@ func (x *SetEntriesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetEntriesResponse.ProtoReflect.Descriptor instead.
 func (*SetEntriesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_models_proto_rawDescGZIP(), []int{4}
+	return file_proto_models_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *SetEntriesResponse) GetSuccessful() []string {
@@ -284,13 +410,14 @@ type DeleteEntriesCommand struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Keys []string `protobuf:"bytes,1,rep,name=keys,proto3" json:"keys,omitempty"`
+	Keyspace *Keyspace `protobuf:"bytes,1,opt,name=keyspace,proto3" json:"keyspace,omitempty"`
+	Keys     []string  `protobuf:"bytes,2,rep,name=keys,proto3" json:"keys,omitempty"`
 }
 
 func (x *DeleteEntriesCommand) Reset() {
 	*x = DeleteEntriesCommand{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_models_proto_msgTypes[5]
+		mi := &file_proto_models_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -303,7 +430,7 @@ func (x *DeleteEntriesCommand) String() string {
 func (*DeleteEntriesCommand) ProtoMessage() {}
 
 func (x *DeleteEntriesCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_models_proto_msgTypes[5]
+	mi := &file_proto_models_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -316,7 +443,14 @@ func (x *DeleteEntriesCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteEntriesCommand.ProtoReflect.Descriptor instead.
 func (*DeleteEntriesCommand) Descriptor() ([]byte, []int) {
-	return file_proto_models_proto_rawDescGZIP(), []int{5}
+	return file_proto_models_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *DeleteEntriesCommand) GetKeyspace() *Keyspace {
+	if x != nil {
+		return x.Keyspace
+	}
+	return nil
 }
 
 func (x *DeleteEntriesCommand) GetKeys() []string {
@@ -332,13 +466,14 @@ type DeleteEntriesResponse struct {
 	unknownFields protoimpl.UnknownFields
 
 	Successful []string `protobuf:"bytes,1,rep,name=successful,proto3" json:"successful,omitempty"`
-	Failed     []string `protobuf:"bytes,2,rep,name=failed,proto3" json:"failed,omitempty"`
+	NotFound   []string `protobuf:"bytes,2,rep,name=notFound,proto3" json:"notFound,omitempty"`
+	Failed     []string `protobuf:"bytes,3,rep,name=failed,proto3" json:"failed,omitempty"`
 }
 
 func (x *DeleteEntriesResponse) Reset() {
 	*x = DeleteEntriesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_models_proto_msgTypes[6]
+		mi := &file_proto_models_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -351,7 +486,7 @@ func (x *DeleteEntriesResponse) String() string {
 func (*DeleteEntriesResponse) ProtoMessage() {}
 
 func (x *DeleteEntriesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_models_proto_msgTypes[6]
+	mi := &file_proto_models_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -364,12 +499,19 @@ func (x *DeleteEntriesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteEntriesResponse.ProtoReflect.Descriptor instead.
 func (*DeleteEntriesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_models_proto_rawDescGZIP(), []int{6}
+	return file_proto_models_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DeleteEntriesResponse) GetSuccessful() []string {
 	if x != nil {
 		return x.Successful
+	}
+	return nil
+}
+
+func (x *DeleteEntriesResponse) GetNotFound() []string {
+	if x != nil {
+		return x.NotFound
 	}
 	return nil
 }
@@ -385,12 +527,14 @@ type ClearEntriesCommand struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	Keyspace *Keyspace `protobuf:"bytes,1,opt,name=keyspace,proto3" json:"keyspace,omitempty"`
 }
 
 func (x *ClearEntriesCommand) Reset() {
 	*x = ClearEntriesCommand{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_models_proto_msgTypes[7]
+		mi := &file_proto_models_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -403,7 +547,7 @@ func (x *ClearEntriesCommand) String() string {
 func (*ClearEntriesCommand) ProtoMessage() {}
 
 func (x *ClearEntriesCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_models_proto_msgTypes[7]
+	mi := &file_proto_models_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -416,7 +560,14 @@ func (x *ClearEntriesCommand) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ClearEntriesCommand.ProtoReflect.Descriptor instead.
 func (*ClearEntriesCommand) Descriptor() ([]byte, []int) {
-	return file_proto_models_proto_rawDescGZIP(), []int{7}
+	return file_proto_models_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ClearEntriesCommand) GetKeyspace() *Keyspace {
+	if x != nil {
+		return x.Keyspace
+	}
+	return nil
 }
 
 type ClearEntriesResponse struct {
@@ -430,7 +581,7 @@ type ClearEntriesResponse struct {
 func (x *ClearEntriesResponse) Reset() {
 	*x = ClearEntriesResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_models_proto_msgTypes[8]
+		mi := &file_proto_models_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -443,7 +594,7 @@ func (x *ClearEntriesResponse) String() string {
 func (*ClearEntriesResponse) ProtoMessage() {}
 
 func (x *ClearEntriesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_models_proto_msgTypes[8]
+	mi := &file_proto_models_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -456,7 +607,7 @@ func (x *ClearEntriesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ClearEntriesResponse.ProtoReflect.Descriptor instead.
 func (*ClearEntriesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_models_proto_rawDescGZIP(), []int{8}
+	return file_proto_models_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ClearEntriesResponse) GetSuccessful() bool {
@@ -470,41 +621,61 @@ var File_proto_models_proto protoreflect.FileDescriptor
 
 var file_proto_models_proto_rawDesc = []byte{
 	0x0a, 0x12, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x73, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x22, 0x2f, 0x0a, 0x05, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a,
-	0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12,
-	0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
-	0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x27, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x45, 0x6e, 0x74, 0x72,
-	0x69, 0x65, 0x73, 0x43, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6b, 0x65,
-	0x79, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x04, 0x6b, 0x65, 0x79, 0x73, 0x22, 0x52,
+	0x72, 0x6f, 0x74, 0x6f, 0x22, 0x3d, 0x0a, 0x09, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63,
+	0x65, 0x12, 0x10, 0x0a, 0x03, 0x6f, 0x72, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03,
+	0x6f, 0x72, 0x67, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x6f, 0x6c, 0x6c, 0x65, 0x63, 0x74, 0x69, 0x6f,
+	0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x6f, 0x6c, 0x6c, 0x65, 0x63, 0x74,
+	0x69, 0x6f, 0x6e, 0x22, 0x48, 0x0a, 0x08, 0x4b, 0x65, 0x79, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12,
+	0x28, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x0a, 0x2e, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x52, 0x09,
+	0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x2f, 0x0a,
+	0x05, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x4e,
+	0x0a, 0x11, 0x47, 0x65, 0x74, 0x45, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x43, 0x6f, 0x6d, 0x6d,
+	0x61, 0x6e, 0x64, 0x12, 0x25, 0x0a, 0x08, 0x6b, 0x65, 0x79, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x09, 0x2e, 0x4b, 0x65, 0x79, 0x73, 0x70, 0x61, 0x63, 0x65,
+	0x52, 0x08, 0x6b, 0x65, 0x79, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6b, 0x65,
+	0x79, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x04, 0x6b, 0x65, 0x79, 0x73, 0x22, 0x52,
 	0x0a, 0x12, 0x47, 0x65, 0x74, 0x45, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70,
 	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x20, 0x0a, 0x07, 0x65, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x18,
 	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x06, 0x2e, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x07, 0x65,
 	0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x12, 0x1a, 0x0a, 0x08, 0x6e, 0x6f, 0x74, 0x46, 0x6f, 0x75,
 	0x6e, 0x64, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x08, 0x6e, 0x6f, 0x74, 0x46, 0x6f, 0x75,
-	0x6e, 0x64, 0x22, 0x35, 0x0a, 0x11, 0x53, 0x65, 0x74, 0x45, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73,
-	0x43, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x12, 0x20, 0x0a, 0x07, 0x65, 0x6e, 0x74, 0x72, 0x69,
-	0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x06, 0x2e, 0x45, 0x6e, 0x74, 0x72, 0x79,
-	0x52, 0x07, 0x65, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x22, 0x4c, 0x0a, 0x12, 0x53, 0x65, 0x74,
-	0x45, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
-	0x1e, 0x0a, 0x0a, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x66, 0x75, 0x6c, 0x18, 0x01, 0x20,
-	0x03, 0x28, 0x09, 0x52, 0x0a, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x66, 0x75, 0x6c, 0x12,
-	0x16, 0x0a, 0x06, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52,
-	0x06, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x22, 0x2a, 0x0a, 0x14, 0x44, 0x65, 0x6c, 0x65, 0x74,
-	0x65, 0x45, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x43, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x12,
-	0x12, 0x0a, 0x04, 0x6b, 0x65, 0x79, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x04, 0x6b,
-	0x65, 0x79, 0x73, 0x22, 0x4f, 0x0a, 0x15, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x45, 0x6e, 0x74,
-	0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1e, 0x0a, 0x0a,
-	0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x66, 0x75, 0x6c, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09,
-	0x52, 0x0a, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x66, 0x75, 0x6c, 0x12, 0x16, 0x0a, 0x06,
-	0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x06, 0x66, 0x61,
-	0x69, 0x6c, 0x65, 0x64, 0x22, 0x15, 0x0a, 0x13, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x45, 0x6e, 0x74,
-	0x72, 0x69, 0x65, 0x73, 0x43, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x22, 0x36, 0x0a, 0x14, 0x43,
-	0x6c, 0x65, 0x61, 0x72, 0x45, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x1e, 0x0a, 0x0a, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x66, 0x75,
-	0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0a, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73,
-	0x66, 0x75, 0x6c, 0x42, 0x1f, 0x5a, 0x1d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
-	0x6d, 0x2f, 0x68, 0x69, 0x76, 0x65, 0x2d, 0x6f, 0x70, 0x73, 0x2f, 0x61, 0x70, 0x69, 0x61, 0x72,
-	0x79, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6e, 0x64, 0x22, 0x5c, 0x0a, 0x11, 0x53, 0x65, 0x74, 0x45, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73,
+	0x43, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x12, 0x25, 0x0a, 0x08, 0x6b, 0x65, 0x79, 0x73, 0x70,
+	0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x09, 0x2e, 0x4b, 0x65, 0x79, 0x73,
+	0x70, 0x61, 0x63, 0x65, 0x52, 0x08, 0x6b, 0x65, 0x79, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x20,
+	0x0a, 0x07, 0x65, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x06, 0x2e, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x07, 0x65, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73,
+	0x22, 0x4c, 0x0a, 0x12, 0x53, 0x65, 0x74, 0x45, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1e, 0x0a, 0x0a, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73,
+	0x73, 0x66, 0x75, 0x6c, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0a, 0x73, 0x75, 0x63, 0x63,
+	0x65, 0x73, 0x73, 0x66, 0x75, 0x6c, 0x12, 0x16, 0x0a, 0x06, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64,
+	0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x06, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x22, 0x51,
+	0x0a, 0x14, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x43,
+	0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x12, 0x25, 0x0a, 0x08, 0x6b, 0x65, 0x79, 0x73, 0x70, 0x61,
+	0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x09, 0x2e, 0x4b, 0x65, 0x79, 0x73, 0x70,
+	0x61, 0x63, 0x65, 0x52, 0x08, 0x6b, 0x65, 0x79, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x12, 0x0a,
+	0x04, 0x6b, 0x65, 0x79, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x04, 0x6b, 0x65, 0x79,
+	0x73, 0x22, 0x6b, 0x0a, 0x15, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x69,
+	0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1e, 0x0a, 0x0a, 0x73, 0x75,
+	0x63, 0x63, 0x65, 0x73, 0x73, 0x66, 0x75, 0x6c, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0a,
+	0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x66, 0x75, 0x6c, 0x12, 0x1a, 0x0a, 0x08, 0x6e, 0x6f,
+	0x74, 0x46, 0x6f, 0x75, 0x6e, 0x64, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x08, 0x6e, 0x6f,
+	0x74, 0x46, 0x6f, 0x75, 0x6e, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64,
+	0x18, 0x03, 0x20, 0x03, 0x28, 0x09, 0x52, 0x06, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x22, 0x3c,
+	0x0a, 0x13, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x45, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x43, 0x6f,
+	0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x12, 0x25, 0x0a, 0x08, 0x6b, 0x65, 0x79, 0x73, 0x70, 0x61, 0x63,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x09, 0x2e, 0x4b, 0x65, 0x79, 0x73, 0x70, 0x61,
+	0x63, 0x65, 0x52, 0x08, 0x6b, 0x65, 0x79, 0x73, 0x70, 0x61, 0x63, 0x65, 0x22, 0x36, 0x0a, 0x14,
+	0x43, 0x6c, 0x65, 0x61, 0x72, 0x45, 0x6e, 0x74, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1e, 0x0a, 0x0a, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x66,
+	0x75, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0a, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73,
+	0x73, 0x66, 0x75, 0x6c, 0x42, 0x1f, 0x5a, 0x1d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
+	0x6f, 0x6d, 0x2f, 0x68, 0x69, 0x76, 0x65, 0x2d, 0x6f, 0x70, 0x73, 0x2f, 0x61, 0x70, 0x69, 0x61,
+	0x72, 0x79, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -519,26 +690,33 @@ func file_proto_models_proto_rawDescGZIP() []byte {
 	return file_proto_models_proto_rawDescData
 }
 
-var file_proto_models_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_proto_models_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_proto_models_proto_goTypes = []any{
-	(*Entry)(nil),                 // 0: Entry
-	(*GetEntriesCommand)(nil),     // 1: GetEntriesCommand
-	(*GetEntriesResponse)(nil),    // 2: GetEntriesResponse
-	(*SetEntriesCommand)(nil),     // 3: SetEntriesCommand
-	(*SetEntriesResponse)(nil),    // 4: SetEntriesResponse
-	(*DeleteEntriesCommand)(nil),  // 5: DeleteEntriesCommand
-	(*DeleteEntriesResponse)(nil), // 6: DeleteEntriesResponse
-	(*ClearEntriesCommand)(nil),   // 7: ClearEntriesCommand
-	(*ClearEntriesResponse)(nil),  // 8: ClearEntriesResponse
+	(*Namespace)(nil),             // 0: Namespace
+	(*Keyspace)(nil),              // 1: Keyspace
+	(*Entry)(nil),                 // 2: Entry
+	(*GetEntriesCommand)(nil),     // 3: GetEntriesCommand
+	(*GetEntriesResponse)(nil),    // 4: GetEntriesResponse
+	(*SetEntriesCommand)(nil),     // 5: SetEntriesCommand
+	(*SetEntriesResponse)(nil),    // 6: SetEntriesResponse
+	(*DeleteEntriesCommand)(nil),  // 7: DeleteEntriesCommand
+	(*DeleteEntriesResponse)(nil), // 8: DeleteEntriesResponse
+	(*ClearEntriesCommand)(nil),   // 9: ClearEntriesCommand
+	(*ClearEntriesResponse)(nil),  // 10: ClearEntriesResponse
 }
 var file_proto_models_proto_depIdxs = []int32{
-	0, // 0: GetEntriesResponse.entries:type_name -> Entry
-	0, // 1: SetEntriesCommand.entries:type_name -> Entry
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0, // 0: Keyspace.namespace:type_name -> Namespace
+	1, // 1: GetEntriesCommand.keyspace:type_name -> Keyspace
+	2, // 2: GetEntriesResponse.entries:type_name -> Entry
+	1, // 3: SetEntriesCommand.keyspace:type_name -> Keyspace
+	2, // 4: SetEntriesCommand.entries:type_name -> Entry
+	1, // 5: DeleteEntriesCommand.keyspace:type_name -> Keyspace
+	1, // 6: ClearEntriesCommand.keyspace:type_name -> Keyspace
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_proto_models_proto_init() }
@@ -548,7 +726,7 @@ func file_proto_models_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_proto_models_proto_msgTypes[0].Exporter = func(v any, i int) any {
-			switch v := v.(*Entry); i {
+			switch v := v.(*Namespace); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -560,7 +738,7 @@ func file_proto_models_proto_init() {
 			}
 		}
 		file_proto_models_proto_msgTypes[1].Exporter = func(v any, i int) any {
-			switch v := v.(*GetEntriesCommand); i {
+			switch v := v.(*Keyspace); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -572,7 +750,7 @@ func file_proto_models_proto_init() {
 			}
 		}
 		file_proto_models_proto_msgTypes[2].Exporter = func(v any, i int) any {
-			switch v := v.(*GetEntriesResponse); i {
+			switch v := v.(*Entry); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -584,7 +762,7 @@ func file_proto_models_proto_init() {
 			}
 		}
 		file_proto_models_proto_msgTypes[3].Exporter = func(v any, i int) any {
-			switch v := v.(*SetEntriesCommand); i {
+			switch v := v.(*GetEntriesCommand); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -596,7 +774,7 @@ func file_proto_models_proto_init() {
 			}
 		}
 		file_proto_models_proto_msgTypes[4].Exporter = func(v any, i int) any {
-			switch v := v.(*SetEntriesResponse); i {
+			switch v := v.(*GetEntriesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -608,7 +786,7 @@ func file_proto_models_proto_init() {
 			}
 		}
 		file_proto_models_proto_msgTypes[5].Exporter = func(v any, i int) any {
-			switch v := v.(*DeleteEntriesCommand); i {
+			switch v := v.(*SetEntriesCommand); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -620,7 +798,7 @@ func file_proto_models_proto_init() {
 			}
 		}
 		file_proto_models_proto_msgTypes[6].Exporter = func(v any, i int) any {
-			switch v := v.(*DeleteEntriesResponse); i {
+			switch v := v.(*SetEntriesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -632,7 +810,7 @@ func file_proto_models_proto_init() {
 			}
 		}
 		file_proto_models_proto_msgTypes[7].Exporter = func(v any, i int) any {
-			switch v := v.(*ClearEntriesCommand); i {
+			switch v := v.(*DeleteEntriesCommand); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -644,6 +822,30 @@ func file_proto_models_proto_init() {
 			}
 		}
 		file_proto_models_proto_msgTypes[8].Exporter = func(v any, i int) any {
+			switch v := v.(*DeleteEntriesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_models_proto_msgTypes[9].Exporter = func(v any, i int) any {
+			switch v := v.(*ClearEntriesCommand); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_models_proto_msgTypes[10].Exporter = func(v any, i int) any {
 			switch v := v.(*ClearEntriesResponse); i {
 			case 0:
 				return &v.state
@@ -662,7 +864,7 @@ func file_proto_models_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_proto_models_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -18,14 +18,14 @@ type Cache struct {
 	sync.RWMutex
 }
 
-func NewCache() Cache {
+func NewCache() *Cache {
 
 	config := CacheConfig{
 		TTL:            60,
 		MaxObjectCount: 1000,
 	}
 
-	return Cache{
+	return &Cache{
 		config: config,
 		store:  utils.NewHashMap(),
 		keys:   utils.NewDoublyLinkedList(config.MaxObjectCount),

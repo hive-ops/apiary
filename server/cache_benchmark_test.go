@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"github.com/hive-ops/apiary/utils"
 	"testing"
 )
 
@@ -15,7 +16,7 @@ func BenchmarkSet(b *testing.B) {
 		c.Set(key, value)
 	}
 
-	reportOpsPerSec(b)
+	utils.ReportOpsPerSec(b)
 
 }
 
@@ -30,7 +31,7 @@ func BenchmarkGet(b *testing.B) {
 		_, _ = c.Get(key)
 	}
 
-	reportOpsPerSec(b)
+	utils.ReportOpsPerSec(b)
 
 }
 
@@ -48,13 +49,6 @@ func BenchmarkDelete(b *testing.B) {
 		c.Delete(keys[i])
 	}
 
-	reportOpsPerSec(b)
+	utils.ReportOpsPerSec(b)
 
-}
-
-func reportOpsPerSec(b *testing.B) {
-	opsPerSec := float64(b.N) / b.Elapsed().Seconds()
-	b.ReportMetric(opsPerSec, "ops/s")
-	b.ReportMetric(b.Elapsed().Seconds(), "s")
-	b.ReportAllocs()
 }

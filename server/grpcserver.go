@@ -5,6 +5,8 @@ import (
 	pb "github.com/hive-ops/apiary/pb/proto"
 )
 
+var apiary = NewApiary()
+
 var c = NewCache()
 
 type ApiaryGRPCServer struct {
