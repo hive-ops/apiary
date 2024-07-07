@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"fmt"
 	pb "github.com/hive-ops/apiary/pb/proto"
 	"github.com/hive-ops/apiary/utils"
@@ -9,10 +10,12 @@ import (
 
 var namespace = pb.NewNamespace("hive-ops", "apiary")
 var keyspace = pb.NewKeyspace(namespace, "benchmark")
+var config = LoadConfig("../apiary.yaml")
 
 func BenchmarkApiarySet(b *testing.B) {
 
-	apiaryInstance := NewApiary()
+	server := NewApiaryServer(config)
+	ctx := context.Background()
 
 	cmd := pb.NewSetEntriesCommand(keyspace, []*pb.Entry{
 		{
@@ -22,7 +25,7 @@ func BenchmarkApiarySet(b *testing.B) {
 	})
 
 	for i := 0; i < b.N; i++ {
-		apiaryInstance.SetEntries(cmd)
+		_, _ = server.SetEntries(ctx, cmd)
 	}
 
 	utils.ReportOpsPerSec(b)
@@ -36,14 +39,15 @@ func BenchmarkApiaryGet(b *testing.B) {
 		Value: "bar",
 	}
 
-	apiaryInstance := NewApiary()
+	server := NewApiaryServer(config)
+	ctx := context.Background()
 
-	apiaryInstance.SetEntries(pb.NewSetEntriesCommand(keyspace, []*pb.Entry{entry}))
+	_, _ = server.SetEntries(ctx, pb.NewSetEntriesCommand(keyspace, []*pb.Entry{entry}))
 
 	getCmd := pb.NewGetEntriesCommand(keyspace, []string{entry.Key})
 
 	for i := 0; i < b.N; i++ {
-		apiaryInstance.GetEntries(getCmd)
+		_, _ = server.GetEntries(ctx, getCmd)
 	}
 
 	utils.ReportOpsPerSec(b)
@@ -52,14 +56,15 @@ func BenchmarkApiaryGet(b *testing.B) {
 
 func BenchmarkApiaryDelete(b *testing.B) {
 
-	apiaryInstance := NewApiary()
+	server := NewApiaryServer(config)
+	ctx := context.Background()
 
 	cmds := make([]*pb.DeleteEntriesCommand, b.N)
 	for i := range cmds {
 		key := fmt.Sprintf("foo-%d", i)
 		value := fmt.Sprintf("bar-%d", i)
 		cmds[i] = pb.NewDeleteEntriesCommand(keyspace, []string{key})
-		apiaryInstance.SetEntries(pb.NewSetEntriesCommand(keyspace, []*pb.Entry{
+		_, _ = server.SetEntries(ctx, pb.NewSetEntriesCommand(keyspace, []*pb.Entry{
 			{
 				Key:   key,
 				Value: value,
@@ -69,7 +74,7 @@ func BenchmarkApiaryDelete(b *testing.B) {
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		apiaryInstance.DeleteEntries(cmds[i])
+		_, _ = server.DeleteEntries(ctx, cmds[i])
 	}
 
 	utils.ReportOpsPerSec(b)

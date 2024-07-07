@@ -1,0 +1,8 @@
+
+cluster_name: my-cluster
+ip: 0.0.0.0
+port: 2468
+seed_nodes: []
+datacenter: datacenter1
+rack: rack1
+

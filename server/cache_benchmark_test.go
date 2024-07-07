@@ -37,6 +37,8 @@ func BenchmarkGet(b *testing.B) {
 
 func BenchmarkDelete(b *testing.B) {
 
+	c := NewCache()
+
 	keys := make([]string, b.N)
 	for i := range keys {
 		key := fmt.Sprintf("key-%d", i)
