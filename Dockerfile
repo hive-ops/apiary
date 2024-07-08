@@ -1,17 +1,19 @@
-FROM golang:alpine3.20
+FROM alpine:3.20 as root-certificates
+RUN apk add -U --no-cache ca-certificates
+RUN addgroup -g 1001 app
+RUN adduser app -u 1001 -D -G app /home/app
 
+FROM golang:1.22.5 as builder
 WORKDIR /app
-
-COPY go.mod go.sum ./
-RUN go mod download
-
-# Copy the source from the current directory to the Working Directory inside the container
+COPY --from=root-certificates /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY . .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod=vendor -o main .
 
-## Build the Go app
-RUN go build -o bin/main .
+FROM scratch as final
+COPY --from=root-certificates /etc/passwd /etc/passwd
+COPY --from=root-certificates /etc/group /etc/group
+COPY --chown=1001:1001 --from=root-certificates /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --chown=1001:1001 --from=builder  /app/main /main
+USER app
+ENTRYPOINT ["/main"]
 
-EXPOSE 2468
-
-# Command to run the executable
-CMD ["./bin/main"]

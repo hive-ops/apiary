@@ -4,6 +4,8 @@ services:
 
   apiary:
     platform: linux/amd64
-    image: apiary
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "2468:2468"
