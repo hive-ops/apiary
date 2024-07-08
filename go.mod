@@ -1,6 +1,6 @@
 module github.com/hive-ops/apiary
 
-go 1.22
+go 1.22.5
 
 require (
 	github.com/samber/lo v1.44.0

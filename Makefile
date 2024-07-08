@@ -7,6 +7,9 @@ setup-project:
 mod-tidy:
 	go mod tidy
 
+mod-vendor: mod-tidy
+	go mod vendor
+
 start-services:
 	docker build -t apiary . --progress=plain
 	docker-compose down
@@ -24,7 +27,7 @@ compile-proto-go:
 		--go-grpc_opt=paths=source_relative \
 		proto/*.proto
 
-build: mod-tidy compile-proto-go
+build: mod-vendor compile-proto-go
 	rm -rf bin
 	go build -o bin/main .
 	#CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -tags=containers -o bin/main .
