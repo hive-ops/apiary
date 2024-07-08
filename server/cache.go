@@ -1,7 +1,6 @@
 package server
 
 import (
-	"errors"
 	"github.com/hive-ops/apiary/utils"
 	"sync"
 )
@@ -32,12 +31,13 @@ func NewCache() *Cache {
 	}
 }
 
-func (c *Cache) Get(key string) (string, error) {
+func (c *Cache) Get(key string) ([]byte, error) {
 	c.RLock()
 	node, ok := c.store.Get(key)
 	if !ok {
 		c.RUnlock()
-		return "", errors.New("not found")
+		return nil, nil
+		//return "", errors.New("not found")
 	}
 	c.keys.MoveToFront(node)
 	c.RUnlock()
@@ -45,7 +45,7 @@ func (c *Cache) Get(key string) (string, error) {
 	return node.Value, nil
 }
 
-func (c *Cache) Set(key, value string) {
+func (c *Cache) Set(key string, value []byte) {
 	c.Lock()
 	if node, ok := c.store.Get(key); ok {
 		node.Value = value

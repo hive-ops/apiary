@@ -41,7 +41,7 @@ func (s *ApiaryGRPCServer) GetEntries(ctx context.Context, cmd *pb.GetEntriesCom
 		}
 		entries = append(entries, &pb.Entry{
 			Key:   key,
-			Value: val,
+			Value: string(val),
 		})
 	}
 
@@ -62,7 +62,7 @@ func (s *ApiaryGRPCServer) SetEntries(ctx context.Context, cmd *pb.SetEntriesCom
 	failed := make([]string, 0)
 
 	for _, entry := range cmd.Entries {
-		c.Set(entry.Key, entry.Value)
+		c.Set(entry.Key, []byte(entry.Value))
 		successful = append(successful, entry.Key)
 	}
 

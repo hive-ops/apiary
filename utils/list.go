@@ -2,7 +2,7 @@ package utils
 
 type Node struct {
 	Key   string
-	Value string
+	Value []byte
 	Prev  *Node
 	Next  *Node
 }
@@ -20,7 +20,7 @@ func NewDoublyLinkedList(maxSize int) *DoublyLinkedList {
 	}
 }
 
-func (dll *DoublyLinkedList) PushFront(key, value string) *Node {
+func (dll *DoublyLinkedList) PushFront(key string, value []byte) *Node {
 	newNode := &Node{
 		Key:   key,
 		Value: value,

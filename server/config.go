@@ -15,12 +15,23 @@ type Config struct {
 	Rack        string   `yaml:"rack"`
 }
 
+func NewDefaultConfig() *Config {
+	return &Config{
+		ClusterName: "test-cluster",
+		IP:          "0.0.0.0",
+		Port:        2468,
+		SeedNodes:   []string{},
+		Datacenter:  "datacenter1",
+		Rack:        "rack1",
+	}
+}
+
 func LoadConfig(path string) *Config {
 	var config Config
 
 	data, err := os.ReadFile(path)
 	if err != nil {
-		log.Fatalf("error reading YAML file: %v", err)
+		return NewDefaultConfig()
 	}
 
 	err = yaml.Unmarshal(data, &config)
