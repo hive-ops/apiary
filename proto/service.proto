@@ -1,7 +1,6 @@
 syntax = "proto3";
 
 import "models.proto";
-import "cluster.proto";
 import "requests.proto";
 import "responses.proto";
 
