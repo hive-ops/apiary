@@ -1,0 +1,24 @@
+syntax = "proto3";
+import "models.proto";
+
+//package apiary.v1;
+
+message GetEntriesResponse {
+    repeated Entry entries   = 1;
+    repeated string     not_found = 2;
+}
+
+message SetEntriesResponse {
+    repeated string successful = 1;
+    repeated string failed     = 2;
+}
+
+message DeleteEntriesResponse {
+    repeated string successful = 1;
+    repeated string not_found  = 2;
+    repeated string failed     = 3;
+}
+
+message ClearEntriesResponse {
+    bool successful = 1;
+}

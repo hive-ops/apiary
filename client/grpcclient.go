@@ -1,7 +1,7 @@
 package client
 
 import (
-	pb "github.com/hive-ops/apiary/pb/proto"
+	"github.com/hive-ops/apiary/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"

@@ -2,43 +2,36 @@ package server
 
 import (
 	"context"
-	"fmt"
-	pb "github.com/hive-ops/apiary/pb/proto"
-	"google.golang.org/grpc"
-	"log"
-	"net"
+	"github.com/hive-ops/apiary/pb"
 )
 
-var caches = make(map[string]*Cache)
-
-type ApiaryGRPCServer struct {
+type ApiaryService struct {
 	pb.UnsafeApiaryServiceServer
 	Config *Config
+	caches map[string]*Cache
 }
 
-func (s *ApiaryGRPCServer) getCache(ctx context.Context, keyspace *pb.Keyspace) (*Cache, bool) {
-	c, ok := caches[keyspace.GetKeyspaceRef()]
-	return c, ok
-}
+func (a *ApiaryService) GetEntries(ctx context.Context, req *pb.GetEntriesRequest) (*pb.GetEntriesResponse, error) {
+	c, ok := a.caches[req.Keyspace]
 
-func (s *ApiaryGRPCServer) GetEntries(ctx context.Context, cmd *pb.GetEntriesCommand) (*pb.GetEntriesResponse, error) {
-	c, ok := s.getCache(ctx, cmd.Keyspace)
 	if !ok {
 		return &pb.GetEntriesResponse{
 			Entries:  nil,
-			NotFound: cmd.Keys,
+			NotFound: req.Keys,
 		}, nil
+
 	}
 
 	entries := make([]*pb.Entry, 0)
 	notFound := make([]string, 0)
 
-	for _, key := range cmd.Keys {
+	for _, key := range req.Keys {
 		val, err := c.Get(key)
 		if err != nil {
 			notFound = append(notFound, key)
 			continue
 		}
+
 		entries = append(entries, &pb.Entry{
 			Key:   key,
 			Value: string(val),
@@ -50,18 +43,17 @@ func (s *ApiaryGRPCServer) GetEntries(ctx context.Context, cmd *pb.GetEntriesCom
 		NotFound: notFound,
 	}, nil
 }
-
-func (s *ApiaryGRPCServer) SetEntries(ctx context.Context, cmd *pb.SetEntriesCommand) (*pb.SetEntriesResponse, error) {
-	c, ok := s.getCache(ctx, cmd.Keyspace)
+func (a *ApiaryService) SetEntries(ctx context.Context, req *pb.SetEntriesRequest) (*pb.SetEntriesResponse, error) {
+	c, ok := a.caches[req.Keyspace]
 	if !ok {
 		c = NewCache()
-		caches[cmd.Keyspace.GetKeyspaceRef()] = c
+		a.caches[req.Keyspace] = c
 	}
 
 	successful := make([]string, 0)
 	failed := make([]string, 0)
 
-	for _, entry := range cmd.Entries {
+	for _, entry := range req.Entries {
 		c.Set(entry.Key, []byte(entry.Value))
 		successful = append(successful, entry.Key)
 	}
@@ -71,13 +63,13 @@ func (s *ApiaryGRPCServer) SetEntries(ctx context.Context, cmd *pb.SetEntriesCom
 		Failed:     failed,
 	}, nil
 }
+func (a *ApiaryService) DeleteEntries(ctx context.Context, req *pb.DeleteEntriesRequest) (*pb.DeleteEntriesResponse, error) {
+	c, ok := a.caches[req.Keyspace]
 
-func (s *ApiaryGRPCServer) DeleteEntries(ctx context.Context, cmd *pb.DeleteEntriesCommand) (*pb.DeleteEntriesResponse, error) {
-	c, ok := s.getCache(ctx, cmd.Keyspace)
 	if !ok {
 		return &pb.DeleteEntriesResponse{
 			Successful: nil,
-			NotFound:   cmd.Keys,
+			NotFound:   req.Keys,
 			Failed:     nil,
 		}, nil
 	}
@@ -85,7 +77,7 @@ func (s *ApiaryGRPCServer) DeleteEntries(ctx context.Context, cmd *pb.DeleteEntr
 	successful := make([]string, 0)
 	failed := make([]string, 0)
 
-	for _, key := range cmd.Keys {
+	for _, key := range req.Keys {
 		c.Delete(key)
 		successful = append(successful, key)
 	}
@@ -95,9 +87,8 @@ func (s *ApiaryGRPCServer) DeleteEntries(ctx context.Context, cmd *pb.DeleteEntr
 		Failed:     failed,
 	}, nil
 }
-
-func (s *ApiaryGRPCServer) ClearEntries(ctx context.Context, cmd *pb.ClearEntriesCommand) (*pb.ClearEntriesResponse, error) {
-	c, ok := s.getCache(ctx, cmd.Keyspace)
+func (a *ApiaryService) ClearEntries(ctx context.Context, req *pb.ClearEntriesRequest) (*pb.ClearEntriesResponse, error) {
+	c, ok := a.caches[req.Keyspace]
 	if !ok {
 		return &pb.ClearEntriesResponse{
 			Successful: false,
@@ -108,33 +99,8 @@ func (s *ApiaryGRPCServer) ClearEntries(ctx context.Context, cmd *pb.ClearEntrie
 	return &pb.ClearEntriesResponse{Successful: true}, nil
 }
 
-func NewApiaryServer(config *Config) *ApiaryGRPCServer {
-	return &ApiaryGRPCServer{
+func NewApiaryService(config *Config) *ApiaryService {
+	return &ApiaryService{
 		Config: config,
-	}
-}
-
-func StartApiaryServer() {
-
-	config := LoadConfig("apiary.yaml")
-
-	address := fmt.Sprintf("%s:%v", config.IP, config.Port)
-	fmt.Println(fmt.Sprintf("Starting gRPC server on %s", address))
-
-	lis, err := net.Listen("tcp", address)
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-
-	grpcServer := grpc.NewServer()
-
-	s := &ApiaryGRPCServer{
-		Config: config,
-	}
-
-	pb.RegisterApiaryServiceServer(grpcServer, s)
-
-	if err = grpcServer.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
 	}
 }

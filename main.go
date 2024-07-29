@@ -1,7 +1,37 @@
 package main
 
-import "github.com/hive-ops/apiary/server"
+import (
+	"fmt"
+	"github.com/hive-ops/apiary/pb"
+	"github.com/hive-ops/apiary/server"
+	"google.golang.org/grpc"
+	"log"
+	"net"
+)
+
+func StartApiaryServer() {
+
+	config := server.LoadConfig("apiary.yaml")
+
+	address := fmt.Sprintf("%s:%v", config.IP, config.Port)
+	fmt.Println(fmt.Sprintf("Starting gRPC server on %s", address))
+
+	lis, err := net.Listen("tcp", address)
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+
+	grpcServer := grpc.NewServer()
+
+	s := server.NewApiaryService(config)
+
+	pb.RegisterApiaryServiceServer(grpcServer, s)
+
+	if err = grpcServer.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
+}
 
 func main() {
-	server.StartApiaryServer()
+	StartApiaryServer()
 }

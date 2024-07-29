@@ -3,29 +3,31 @@ package server
 import (
 	"context"
 	"fmt"
-	pb "github.com/hive-ops/apiary/pb/proto"
+	"github.com/hive-ops/apiary/pb"
 	"github.com/hive-ops/apiary/utils"
 	"testing"
 )
 
-var namespace = pb.NewNamespace("hive-ops", "apiary")
-var keyspace = pb.NewKeyspace(namespace, "benchmark")
+var keyspace = "benchmark"
 var config = LoadConfig("../apiary.yaml")
 
 func BenchmarkApiarySet(b *testing.B) {
 
-	server := NewApiaryServer(config)
+	server := NewApiaryService(config)
 	ctx := context.Background()
 
-	cmd := pb.NewSetEntriesCommand(keyspace, []*pb.Entry{
-		{
-			Key:   "foo",
-			Value: "bar",
+	req := &pb.SetEntriesRequest{
+		Keyspace: keyspace,
+		Entries: []*pb.Entry{
+			{
+				Key:   "foo",
+				Value: "bar",
+			},
 		},
-	})
+	}
 
 	for i := 0; i < b.N; i++ {
-		_, _ = server.SetEntries(ctx, cmd)
+		_, _ = server.SetEntries(ctx, req)
 	}
 
 	utils.ReportOpsPerSec(b)
@@ -39,12 +41,18 @@ func BenchmarkApiaryGet(b *testing.B) {
 		Value: "bar",
 	}
 
-	server := NewApiaryServer(config)
+	server := NewApiaryService(config)
 	ctx := context.Background()
 
-	_, _ = server.SetEntries(ctx, pb.NewSetEntriesCommand(keyspace, []*pb.Entry{entry}))
+	_, _ = server.SetEntries(ctx, &pb.SetEntriesRequest{
+		Keyspace: keyspace,
+		Entries:  []*pb.Entry{entry},
+	})
 
-	getCmd := pb.NewGetEntriesCommand(keyspace, []string{entry.Key})
+	getCmd := &pb.GetEntriesRequest{
+		Keyspace: keyspace,
+		Keys:     []string{entry.Key},
+	}
 
 	for i := 0; i < b.N; i++ {
 		_, _ = server.GetEntries(ctx, getCmd)
@@ -56,20 +64,20 @@ func BenchmarkApiaryGet(b *testing.B) {
 
 func BenchmarkApiaryDelete(b *testing.B) {
 
-	server := NewApiaryServer(config)
+	server := NewApiaryService(config)
 	ctx := context.Background()
 
-	cmds := make([]*pb.DeleteEntriesCommand, b.N)
+	cmds := make([]*pb.DeleteEntriesRequest, b.N)
 	for i := range cmds {
 		key := fmt.Sprintf("foo-%d", i)
 		value := fmt.Sprintf("bar-%d", i)
-		cmds[i] = pb.NewDeleteEntriesCommand(keyspace, []string{key})
-		_, _ = server.SetEntries(ctx, pb.NewSetEntriesCommand(keyspace, []*pb.Entry{
+		cmds[i] = &pb.DeleteEntriesRequest{Keyspace: keyspace, Keys: []string{key}}
+		_, _ = server.SetEntries(ctx, &pb.SetEntriesRequest{Keyspace: keyspace, Entries: []*pb.Entry{
 			{
 				Key:   key,
 				Value: value,
 			},
-		}))
+		}})
 	}
 	b.ResetTimer()
 

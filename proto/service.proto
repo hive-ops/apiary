@@ -1,12 +1,15 @@
 syntax = "proto3";
 
-import "proto/models.proto";
+import "models.proto";
+import "cluster.proto";
+import "requests.proto";
+import "responses.proto";
 
 option go_package = "github.com/hive-ops/apiary/pb";
 
 service ApiaryService {
-  rpc GetEntries(GetEntriesCommand) returns (GetEntriesResponse) {}
-  rpc SetEntries(SetEntriesCommand) returns (SetEntriesResponse) {}
-  rpc DeleteEntries(DeleteEntriesCommand) returns (DeleteEntriesResponse) {}
-  rpc ClearEntries(ClearEntriesCommand) returns (ClearEntriesResponse) {}
+  rpc GetEntries(GetEntriesRequest) returns (GetEntriesResponse) {}
+  rpc SetEntries(SetEntriesRequest) returns (SetEntriesResponse) {}
+  rpc DeleteEntries(DeleteEntriesRequest) returns (DeleteEntriesResponse) {}
+  rpc ClearEntries(ClearEntriesRequest) returns (ClearEntriesResponse) {}
 }

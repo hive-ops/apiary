@@ -2,14 +2,13 @@ package client
 
 import (
 	"context"
-	pb "github.com/hive-ops/apiary/pb/proto"
+	"github.com/hive-ops/apiary/pb"
 	"github.com/samber/lo"
 	"testing"
 	"time"
 )
 
-var namespace = pb.NewNamespace("hive-ops", "apiary")
-var keyspace = pb.NewKeyspace(namespace, "benchmark")
+var keyspace = "benchmark"
 
 func TestClient(t *testing.T) {
 
@@ -20,9 +19,9 @@ func TestClient(t *testing.T) {
 
 	key := "testKey"
 
-	cmd := pb.NewGetEntriesCommand(keyspace, []string{key})
+	req := &pb.GetEntriesRequest{Keyspace: keyspace, Keys: []string{key}}
 
-	res, _ := client.GetEntries(ctx, cmd)
+	res, _ := client.GetEntries(ctx, req)
 
 	if !lo.Contains(res.NotFound, key) {
 		t.Fatalf("GetEntries failed: %v", res)

@@ -37,3 +37,6 @@ benchmark-cache:
 	go test -bench=. -benchmem -count=10 -benchtime=4s ./server -timeout 30m | tee new_bench.txt
 	benchstat current_bench.txt new_bench.txt
 
+compile-proto:
+	find ./pb -name "*.pb.go" -exec rm {} +
+	buf generate
