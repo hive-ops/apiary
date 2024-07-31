@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	"github.com/hive-ops/apiary/pb"
+	apiaryv1 "github.com/hive-ops/apiary/pb/apiary/v1"
 	"github.com/hive-ops/apiary/utils"
 	"testing"
 )
@@ -16,9 +16,9 @@ func BenchmarkApiarySet(b *testing.B) {
 	server := NewApiaryService(config)
 	ctx := context.Background()
 
-	req := &pb.SetEntriesRequest{
+	req := &apiaryv1.SetEntriesRequest{
 		Keyspace: keyspace,
-		Entries: []*pb.Entry{
+		Entries: []*apiaryv1.Entry{
 			{
 				Key:   "foo",
 				Value: []byte("bar"),
@@ -36,7 +36,7 @@ func BenchmarkApiarySet(b *testing.B) {
 
 func BenchmarkApiaryGet(b *testing.B) {
 
-	entry := &pb.Entry{
+	entry := &apiaryv1.Entry{
 		Key:   "foo",
 		Value: []byte("bar"),
 	}
@@ -44,12 +44,12 @@ func BenchmarkApiaryGet(b *testing.B) {
 	server := NewApiaryService(config)
 	ctx := context.Background()
 
-	_, _ = server.SetEntries(ctx, &pb.SetEntriesRequest{
+	_, _ = server.SetEntries(ctx, &apiaryv1.SetEntriesRequest{
 		Keyspace: keyspace,
-		Entries:  []*pb.Entry{entry},
+		Entries:  []*apiaryv1.Entry{entry},
 	})
 
-	getCmd := &pb.GetEntriesRequest{
+	getCmd := &apiaryv1.GetEntriesRequest{
 		Keyspace: keyspace,
 		Keys:     []string{entry.Key},
 	}
@@ -67,12 +67,12 @@ func BenchmarkApiaryDelete(b *testing.B) {
 	server := NewApiaryService(config)
 	ctx := context.Background()
 
-	cmds := make([]*pb.DeleteEntriesRequest, b.N)
+	cmds := make([]*apiaryv1.DeleteEntriesRequest, b.N)
 	for i := range cmds {
 		key := fmt.Sprintf("foo-%d", i)
 		value := []byte(fmt.Sprintf("bar-%d", i))
-		cmds[i] = &pb.DeleteEntriesRequest{Keyspace: keyspace, Keys: []string{key}}
-		_, _ = server.SetEntries(ctx, &pb.SetEntriesRequest{Keyspace: keyspace, Entries: []*pb.Entry{
+		cmds[i] = &apiaryv1.DeleteEntriesRequest{Keyspace: keyspace, Keys: []string{key}}
+		_, _ = server.SetEntries(ctx, &apiaryv1.SetEntriesRequest{Keyspace: keyspace, Entries: []*apiaryv1.Entry{
 			{
 				Key:   key,
 				Value: value,

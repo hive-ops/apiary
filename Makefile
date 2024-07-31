@@ -10,6 +10,9 @@ mod-tidy:
 mod-vendor: mod-tidy
 	go mod vendor
 
+dev:
+	nodemon
+
 start-services:
 	docker build -t apiary . --progress=plain
 	docker-compose down
@@ -43,3 +46,7 @@ compile-proto:
 
 tests:
 	go test -v `go list ./... | grep -v ./pb` -race -coverprofile=coverage.out; go tool cover -html=coverage.out
+
+pull-submodules:
+	git submodule update --remote --merge --recursive
+	make compile-proto

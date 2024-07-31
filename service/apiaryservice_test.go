@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/hive-ops/apiary/pb"
+	"github.com/hive-ops/apiary/pb/apiary/v1"
 	"github.com/hive-ops/apiary/utils"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -12,7 +12,7 @@ func TestSwarmDataServiceTestSuite(t *testing.T) {
 	apiaryService := NewApiaryServiceWithDefaultConfig()
 
 	keyspace := utils.RandomString(10, true, false, false)
-	entries := []*pb.Entry{
+	entries := []*apiaryv1.Entry{
 		{
 			Key:   "test1",
 			Value: []byte("test1"),
@@ -33,7 +33,7 @@ func TestSwarmDataServiceTestSuite(t *testing.T) {
 	}
 
 	t.Run("GetEntrySuccessfully - Empty", func(t *testing.T) {
-		res, err := apiaryService.GetEntries(nil, pb.NewGetEntriesRequest(keyspace, keys))
+		res, err := apiaryService.GetEntries(nil, apiaryv1.NewGetEntriesRequest(keyspace, keys))
 
 		assert.NoError(t, err)
 		assert.Empty(t, res.Entries)
@@ -41,14 +41,14 @@ func TestSwarmDataServiceTestSuite(t *testing.T) {
 	})
 
 	t.Run("SetEntrySuccessfully", func(t *testing.T) {
-		res, err := apiaryService.SetEntries(nil, pb.NewSetEntriesRequest(keyspace, entries))
+		res, err := apiaryService.SetEntries(nil, apiaryv1.NewSetEntriesRequest(keyspace, entries))
 
 		assert.NoError(t, err)
 		assert.Equal(t, keys, res.Successful)
 	})
 
 	t.Run("GetEntrySuccessfully - Non-empty", func(t *testing.T) {
-		res, err := apiaryService.GetEntries(nil, pb.NewGetEntriesRequest(keyspace, []string{"test1", "invalid-key"}))
+		res, err := apiaryService.GetEntries(nil, apiaryv1.NewGetEntriesRequest(keyspace, []string{"test1", "invalid-key"}))
 
 		assert.NoError(t, err)
 		assert.NotEmpty(t, res.Entries)
@@ -57,12 +57,12 @@ func TestSwarmDataServiceTestSuite(t *testing.T) {
 
 	t.Run("DeleteEntrySuccessfully", func(t *testing.T) {
 		keysToBeDeleted := []string{"test1"}
-		res, err := apiaryService.DeleteEntries(nil, pb.NewDeleteEntriesRequest(keyspace, keysToBeDeleted))
+		res, err := apiaryService.DeleteEntries(nil, apiaryv1.NewDeleteEntriesRequest(keyspace, keysToBeDeleted))
 
 		assert.NoError(t, err)
 		assert.Equal(t, keysToBeDeleted, res.Successful)
 
-		getRes, getErr := apiaryService.GetEntries(nil, pb.NewGetEntriesRequest(keyspace, keys))
+		getRes, getErr := apiaryService.GetEntries(nil, apiaryv1.NewGetEntriesRequest(keyspace, keys))
 
 		assert.NoError(t, getErr)
 		assert.NotEmpty(t, getRes.Entries)
@@ -71,12 +71,12 @@ func TestSwarmDataServiceTestSuite(t *testing.T) {
 	})
 
 	t.Run("ClearEntriesSuccessfully", func(t *testing.T) {
-		res, err := apiaryService.ClearEntries(nil, pb.NewClearEntriesRequest(keyspace))
+		res, err := apiaryService.ClearEntries(nil, apiaryv1.NewClearEntriesRequest(keyspace))
 
 		assert.NoError(t, err)
 		assert.True(t, res.Successful)
 
-		getRes, getErr := apiaryService.GetEntries(nil, pb.NewGetEntriesRequest(keyspace, keys))
+		getRes, getErr := apiaryService.GetEntries(nil, apiaryv1.NewGetEntriesRequest(keyspace, keys))
 
 		assert.NoError(t, getErr)
 		assert.Empty(t, getRes.Entries)

@@ -1,4 +1,4 @@
-package pb
+package apiaryv1
 
 func NewEntry(key string, value []byte) *Entry {
 	return &Entry{

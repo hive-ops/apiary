@@ -1,0 +1,6 @@
+{
+  "watch": ["*"],
+  "ext": "go",
+  "ignore": ["*gen*.go"],
+  "exec": "(killall -9 main || true ) && go run main.go --signal SIGTERM"
+}

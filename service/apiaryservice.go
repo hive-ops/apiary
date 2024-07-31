@@ -2,27 +2,27 @@ package service
 
 import (
 	"context"
-	"github.com/hive-ops/apiary/pb"
+	apiaryv1 "github.com/hive-ops/apiary/pb/apiary/v1"
 )
 
 type ApiaryService struct {
-	pb.UnsafeApiaryServiceServer
+	apiaryv1.UnsafeApiaryServiceServer
 	Config *Config
 	caches map[string]*Cache
 }
 
-func (a *ApiaryService) GetEntries(ctx context.Context, req *pb.GetEntriesRequest) (*pb.GetEntriesResponse, error) {
+func (a *ApiaryService) GetEntries(ctx context.Context, req *apiaryv1.GetEntriesRequest) (*apiaryv1.GetEntriesResponse, error) {
 	c, ok := a.caches[req.Keyspace]
 
 	if !ok {
-		return &pb.GetEntriesResponse{
+		return &apiaryv1.GetEntriesResponse{
 			Entries:  nil,
 			NotFound: req.Keys,
 		}, nil
 
 	}
 
-	entries := make([]*pb.Entry, 0)
+	entries := make([]*apiaryv1.Entry, 0)
 	notFound := make([]string, 0)
 
 	for _, key := range req.Keys {
@@ -32,18 +32,18 @@ func (a *ApiaryService) GetEntries(ctx context.Context, req *pb.GetEntriesReques
 			continue
 		}
 
-		entries = append(entries, &pb.Entry{
+		entries = append(entries, &apiaryv1.Entry{
 			Key:   key,
 			Value: val,
 		})
 	}
 
-	return &pb.GetEntriesResponse{
+	return &apiaryv1.GetEntriesResponse{
 		Entries:  entries,
 		NotFound: notFound,
 	}, nil
 }
-func (a *ApiaryService) SetEntries(ctx context.Context, req *pb.SetEntriesRequest) (*pb.SetEntriesResponse, error) {
+func (a *ApiaryService) SetEntries(ctx context.Context, req *apiaryv1.SetEntriesRequest) (*apiaryv1.SetEntriesResponse, error) {
 	c, ok := a.caches[req.Keyspace]
 	if !ok {
 		c = NewCache()
@@ -58,16 +58,16 @@ func (a *ApiaryService) SetEntries(ctx context.Context, req *pb.SetEntriesReques
 		successful = append(successful, entry.Key)
 	}
 
-	return &pb.SetEntriesResponse{
+	return &apiaryv1.SetEntriesResponse{
 		Successful: successful,
 		Failed:     failed,
 	}, nil
 }
-func (a *ApiaryService) DeleteEntries(ctx context.Context, req *pb.DeleteEntriesRequest) (*pb.DeleteEntriesResponse, error) {
+func (a *ApiaryService) DeleteEntries(ctx context.Context, req *apiaryv1.DeleteEntriesRequest) (*apiaryv1.DeleteEntriesResponse, error) {
 	c, ok := a.caches[req.Keyspace]
 
 	if !ok {
-		return &pb.DeleteEntriesResponse{
+		return &apiaryv1.DeleteEntriesResponse{
 			Successful: nil,
 			NotFound:   req.Keys,
 			Failed:     nil,
@@ -82,21 +82,21 @@ func (a *ApiaryService) DeleteEntries(ctx context.Context, req *pb.DeleteEntries
 		successful = append(successful, key)
 	}
 
-	return &pb.DeleteEntriesResponse{
+	return &apiaryv1.DeleteEntriesResponse{
 		Successful: successful,
 		Failed:     failed,
 	}, nil
 }
-func (a *ApiaryService) ClearEntries(ctx context.Context, req *pb.ClearEntriesRequest) (*pb.ClearEntriesResponse, error) {
+func (a *ApiaryService) ClearEntries(ctx context.Context, req *apiaryv1.ClearEntriesRequest) (*apiaryv1.ClearEntriesResponse, error) {
 	c, ok := a.caches[req.Keyspace]
 	if !ok {
-		return &pb.ClearEntriesResponse{
+		return &apiaryv1.ClearEntriesResponse{
 			Successful: false,
 		}, nil
 	}
 
 	c.Clear()
-	return &pb.ClearEntriesResponse{Successful: true}, nil
+	return &apiaryv1.ClearEntriesResponse{Successful: true}, nil
 }
 
 func NewApiaryService(config *Config) *ApiaryService {

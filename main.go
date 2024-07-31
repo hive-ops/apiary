@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/hive-ops/apiary/pb"
+	apiaryv1 "github.com/hive-ops/apiary/pb/apiary/v1"
 	"github.com/hive-ops/apiary/service"
 	"google.golang.org/grpc"
 	"log"
@@ -25,7 +25,7 @@ func StartApiaryServer() {
 
 	s := service.NewApiaryService(config)
 
-	pb.RegisterApiaryServiceServer(grpcServer, s)
+	apiaryv1.RegisterApiaryServiceServer(grpcServer, s)
 
 	if err = grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)

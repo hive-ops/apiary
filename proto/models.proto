@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-option go_package = "github.com/hive-ops/apiary/pb";
-
-message Entry {
-  string key = 1;
-  bytes value = 2;
-}

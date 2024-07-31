@@ -1,24 +1,24 @@
 package client
 
 import (
-	"github.com/hive-ops/apiary/pb"
+	apiaryv1 "github.com/hive-ops/apiary/pb/apiary/v1"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/credentials"
 	"log"
 )
 
 type ApiaryGRPCClient struct {
-	pb.ApiaryServiceClient
+	apiaryv1.ApiaryServiceClient
 	conn *grpc.ClientConn
 }
 
-func NewClient(address string) *ApiaryGRPCClient {
-	conn, err := grpc.NewClient(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
+func NewClient(address string, creds credentials.TransportCredentials) *ApiaryGRPCClient {
+	conn, err := grpc.NewClient(address, grpc.WithTransportCredentials(creds))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 
-	return &ApiaryGRPCClient{conn: conn, ApiaryServiceClient: pb.NewApiaryServiceClient(conn)}
+	return &ApiaryGRPCClient{conn: conn, ApiaryServiceClient: apiaryv1.NewApiaryServiceClient(conn)}
 }
 
 func (c *ApiaryGRPCClient) close() {

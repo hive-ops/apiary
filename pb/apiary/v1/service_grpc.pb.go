@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             (unknown)
-// source: service.proto
+// source: apiary/v1/service.proto
 
-package pb
+package apiaryv1
 
 import (
 	context "context"
@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	ApiaryService_GetEntries_FullMethodName    = "/ApiaryService/GetEntries"
-	ApiaryService_SetEntries_FullMethodName    = "/ApiaryService/SetEntries"
-	ApiaryService_DeleteEntries_FullMethodName = "/ApiaryService/DeleteEntries"
-	ApiaryService_ClearEntries_FullMethodName  = "/ApiaryService/ClearEntries"
+	ApiaryService_GetEntries_FullMethodName    = "/apiary.v1.ApiaryService/GetEntries"
+	ApiaryService_SetEntries_FullMethodName    = "/apiary.v1.ApiaryService/SetEntries"
+	ApiaryService_DeleteEntries_FullMethodName = "/apiary.v1.ApiaryService/DeleteEntries"
+	ApiaryService_ClearEntries_FullMethodName  = "/apiary.v1.ApiaryService/ClearEntries"
 )
 
 // ApiaryServiceClient is the client API for ApiaryService service.
@@ -199,7 +199,7 @@ func _ApiaryService_ClearEntries_Handler(srv interface{}, ctx context.Context, d
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ApiaryService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ApiaryService",
+	ServiceName: "apiary.v1.ApiaryService",
 	HandlerType: (*ApiaryServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -220,5 +220,5 @@ var ApiaryService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "service.proto",
+	Metadata: "apiary/v1/service.proto",
 }
