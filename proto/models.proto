@@ -4,5 +4,5 @@ option go_package = "github.com/hive-ops/apiary/pb";
 
 message Entry {
   string key = 1;
-  string value = 2;
+  bytes value = 2;
 }

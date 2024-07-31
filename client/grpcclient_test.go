@@ -21,7 +21,11 @@ func TestClient(t *testing.T) {
 
 	req := &pb.GetEntriesRequest{Keyspace: keyspace, Keys: []string{key}}
 
-	res, _ := client.GetEntries(ctx, req)
+	res, err := client.GetEntries(ctx, req)
+
+	if err != nil {
+		t.Fatalf("GetEntries failed: %v", err)
+	}
 
 	if !lo.Contains(res.NotFound, key) {
 		t.Fatalf("GetEntries failed: %v", res)

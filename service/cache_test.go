@@ -1,19 +1,23 @@
-package server
+package service
 
 import (
+	"bytes"
 	"testing"
 )
 
 func TestCacheSetAndGet(t *testing.T) {
 	cache := NewCache()
-	cache.Set("key1", "value1")
+	cache.Set("key1", []byte("value1"))
 	value, err := cache.Get("key1")
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}
-	if value != "value1" {
+	if !bytes.Equal(value, []byte("value1")) {
 		t.Errorf("Expected value1, got %s", value)
 	}
+	//if value != []byte("value1") {
+	//	t.Errorf("Expected value1, got %s", value)
+	//}
 }
 
 func TestCacheGetNotFound(t *testing.T) {
@@ -26,7 +30,7 @@ func TestCacheGetNotFound(t *testing.T) {
 
 func TestCacheDelete(t *testing.T) {
 	cache := NewCache()
-	cache.Set("key1", "value1")
+	cache.Set("key1", []byte("value1"))
 	cache.Delete("key1")
 	_, err := cache.Get("key1")
 	if err == nil {
@@ -36,7 +40,7 @@ func TestCacheDelete(t *testing.T) {
 
 func TestCacheClear(t *testing.T) {
 	cache := NewCache()
-	cache.Set("key1", "value1")
+	cache.Set("key1", []byte([]byte("value1")))
 	cache.Clear()
 	_, err := cache.Get("key1")
 	if err == nil {
@@ -46,12 +50,12 @@ func TestCacheClear(t *testing.T) {
 
 func TestConcurrentAccess(t *testing.T) {
 	cache := NewCache()
-	cache.Set("key1", "value1")
+	cache.Set("key1", []byte("value1"))
 
 	done := make(chan bool)
 
 	go func() {
-		cache.Set("key2", "value2")
+		cache.Set("key2", []byte("value2"))
 		done <- true
 	}()
 
@@ -69,7 +73,7 @@ func TestConcurrentAccess(t *testing.T) {
 	}
 
 	value, err := cache.Get("key2")
-	if err != nil || value != "value2" {
+	if err != nil || !bytes.Equal(value, []byte("value2")) {
 		t.Errorf("Expected value2 for key2, got %v, %v", value, err)
 	}
 }

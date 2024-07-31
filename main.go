@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/hive-ops/apiary/pb"
-	"github.com/hive-ops/apiary/server"
+	"github.com/hive-ops/apiary/service"
 	"google.golang.org/grpc"
 	"log"
 	"net"
@@ -11,7 +11,7 @@ import (
 
 func StartApiaryServer() {
 
-	config := server.LoadConfig("apiary.yaml")
+	config := service.LoadConfig("apiary.yaml")
 
 	address := fmt.Sprintf("%s:%v", config.IP, config.Port)
 	fmt.Println(fmt.Sprintf("Starting gRPC server on %s", address))
@@ -23,7 +23,7 @@ func StartApiaryServer() {
 
 	grpcServer := grpc.NewServer()
 
-	s := server.NewApiaryService(config)
+	s := service.NewApiaryService(config)
 
 	pb.RegisterApiaryServiceServer(grpcServer, s)
 

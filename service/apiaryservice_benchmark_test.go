@@ -1,4 +1,4 @@
-package server
+package service
 
 import (
 	"context"
@@ -21,7 +21,7 @@ func BenchmarkApiarySet(b *testing.B) {
 		Entries: []*pb.Entry{
 			{
 				Key:   "foo",
-				Value: "bar",
+				Value: []byte("bar"),
 			},
 		},
 	}
@@ -38,7 +38,7 @@ func BenchmarkApiaryGet(b *testing.B) {
 
 	entry := &pb.Entry{
 		Key:   "foo",
-		Value: "bar",
+		Value: []byte("bar"),
 	}
 
 	server := NewApiaryService(config)
@@ -70,7 +70,7 @@ func BenchmarkApiaryDelete(b *testing.B) {
 	cmds := make([]*pb.DeleteEntriesRequest, b.N)
 	for i := range cmds {
 		key := fmt.Sprintf("foo-%d", i)
-		value := fmt.Sprintf("bar-%d", i)
+		value := []byte(fmt.Sprintf("bar-%d", i))
 		cmds[i] = &pb.DeleteEntriesRequest{Keyspace: keyspace, Keys: []string{key}}
 		_, _ = server.SetEntries(ctx, &pb.SetEntriesRequest{Keyspace: keyspace, Entries: []*pb.Entry{
 			{

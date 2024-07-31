@@ -1,4 +1,4 @@
-package server
+package service
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ func BenchmarkSet(b *testing.B) {
 	c := NewCache()
 
 	for i := 0; i < b.N; i++ {
-		c.Set(key, value)
+		c.Set(key, []byte(value))
 	}
 
 	utils.ReportOpsPerSec(b)
@@ -25,7 +25,7 @@ func BenchmarkGet(b *testing.B) {
 	key := "key"
 	value := "value"
 	c := NewCache()
-	c.Set(key, value)
+	c.Set(key, []byte(value))
 
 	for i := 0; i < b.N; i++ {
 		_, _ = c.Get(key)
@@ -43,7 +43,7 @@ func BenchmarkDelete(b *testing.B) {
 	for i := range keys {
 		key := fmt.Sprintf("key-%d", i)
 		keys[i] = key
-		c.Set(key, "value")
+		c.Set(key, []byte("value"))
 	}
 	b.ResetTimer()
 

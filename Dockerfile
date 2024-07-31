@@ -13,9 +13,6 @@ COPY . .
 # Build the Go app
 RUN go build -o main .
 
-# Expose ports 2468 to the outside world
-EXPOSE 2468
-
 # Command to run the executable
 CMD ["./main"]
 

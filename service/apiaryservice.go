@@ -1,4 +1,4 @@
-package server
+package service
 
 import (
 	"context"
@@ -34,7 +34,7 @@ func (a *ApiaryService) GetEntries(ctx context.Context, req *pb.GetEntriesReques
 
 		entries = append(entries, &pb.Entry{
 			Key:   key,
-			Value: string(val),
+			Value: val,
 		})
 	}
 
@@ -102,5 +102,10 @@ func (a *ApiaryService) ClearEntries(ctx context.Context, req *pb.ClearEntriesRe
 func NewApiaryService(config *Config) *ApiaryService {
 	return &ApiaryService{
 		Config: config,
+		caches: make(map[string]*Cache),
 	}
+}
+
+func NewApiaryServiceWithDefaultConfig() *ApiaryService {
+	return NewApiaryService(NewDefaultConfig())
 }

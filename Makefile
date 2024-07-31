@@ -40,3 +40,6 @@ benchmark-cache:
 compile-proto:
 	find ./pb -name "*.pb.go" -exec rm {} +
 	buf generate
+
+tests:
+	go test -v `go list ./... | grep -v ./pb` -race -coverprofile=coverage.out; go tool cover -html=coverage.out
