@@ -27,7 +27,7 @@ COPY --from=root-certificates /etc/passwd /etc/passwd
 COPY --from=root-certificates /etc/group /etc/group
 COPY --chown=1001:1001 --from=root-certificates /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --chown=1001:1001 --from=builder  /app/main /main
-COPY --chown=1001:1001 --from=builder  /app/apiary.yml /apiary.yml
+COPY --chown=1001:1001 --from=builder  /app/apiary.yaml /apiary.yaml
 USER app
 
 CMD ["./main"]
