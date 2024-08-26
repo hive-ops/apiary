@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	apiaryv1 "github.com/hive-ops/apiary/pb/apiary/v1"
 )
 
@@ -12,6 +13,9 @@ type ApiaryService struct {
 }
 
 func (a *ApiaryService) GetEntries(ctx context.Context, req *apiaryv1.GetEntriesRequest) (*apiaryv1.GetEntriesResponse, error) {
+
+	fmt.Println("GetEntries called")
+
 	c, ok := a.caches[req.Keyspace]
 
 	if !ok {
