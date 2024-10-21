@@ -41,8 +41,10 @@ benchmark-cache:
 	benchstat current_bench.txt new_bench.txt
 
 compile-proto:
-	find ./pb -name "*.pb.go" -exec rm {} +
-	buf generate
+	find ./internal/gen -name "*.pb.go" -delete
+
+	buf generate --path=hive-proto/proto/apiary
+	buf generate --path=hive-proto/proto/hive
 
 tests:
 	go test -v `go list ./... | grep -v ./pb` -race -coverprofile=coverage.out; go tool cover -html=coverage.out
@@ -50,3 +52,10 @@ tests:
 pull-submodules:
 	git submodule update --remote --merge --recursive
 	make compile-proto
+
+update-deps:
+	go get -u ./...
+	go mod tidy
+
+build:
+	go build -o ./bin/app ./cmd/app

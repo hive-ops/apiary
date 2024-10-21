@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net"
+
 	apiaryv1 "github.com/hive-ops/apiary/pb/apiary/v1"
 	"github.com/hive-ops/apiary/service"
 	"google.golang.org/grpc"
-	"log"
-	"net"
 )
 
 func StartApiaryServer() {

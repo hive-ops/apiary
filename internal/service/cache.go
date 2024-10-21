@@ -2,8 +2,9 @@ package service
 
 import (
 	"errors"
-	"github.com/hive-ops/apiary/utils"
 	"sync"
+
+	"github.com/hive-ops/hive-commons/pkgs/utils"
 )
 
 type CacheConfig struct {

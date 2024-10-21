@@ -3,17 +3,17 @@ managed:
   enabled: true
   override:
     - file_option: go_package_prefix
-      value: github.com/hive-ops/apiary/pb
+      value: github.com/hive-ops/apiary/internal/gen
 
 plugins:
   - remote: buf.build/protocolbuffers/go
-    out: pb
+    out: internal/gen
     opt:
       - paths=source_relative
   - remote: buf.build/grpc/go
-    out: pb
+    out: internal/gen
     opt:
       - paths=source_relative
 
 inputs:
-  - directory: apiary-proto
+  - directory: hive-proto/proto
