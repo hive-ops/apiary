@@ -1,3 +1,3 @@
-[submodule "apiary-proto"]
-	path = apiary-proto
-	url = https://github.com/hive-ops/apiary-proto
+[submodule "hive-proto"]
+	path = hive-proto
+	url = https://github.com/hive-ops/hive-proto
