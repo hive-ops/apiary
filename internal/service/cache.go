@@ -4,7 +4,7 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/hive-ops/hive-commons/pkgs/utils"
+	"github.com/hive-ops/hive-commons/pkgs/utilities"
 )
 
 type CacheConfig struct {
@@ -14,8 +14,8 @@ type CacheConfig struct {
 
 type Cache struct {
 	config CacheConfig
-	store  *utils.HashMap
-	keys   *utils.DoublyLinkedList
+	store  *utilities.HashMap
+	keys   *utilities.DoublyLinkedList
 	sync.RWMutex
 }
 
@@ -28,8 +28,8 @@ func NewCache() *Cache {
 
 	return &Cache{
 		config: config,
-		store:  utils.NewHashMap(),
-		keys:   utils.NewDoublyLinkedList(config.MaxObjectCount),
+		store:  utilities.NewHashMap(),
+		keys:   utilities.NewDoublyLinkedList(config.MaxObjectCount),
 	}
 }
 
